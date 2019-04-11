@@ -29,21 +29,31 @@ class App extends Component {
   render() {
     return (
       <AppBody>
-        <ListBox>
-          <div>
-            TO-DO LIST
-            <button onClick={() => this.createTask()}>Create Task</button>
-            <Input
-              type="text"
-              value={this.state.newTaskName}
-              onChange={(e) => this.taskNameChanged(e)}
-              onKeyUp={(e) => this.taskNameKeyUp(e)}
-            />
-          </div>
-          <div>
-            {this.props.list.map(x => <div>{x}</div>)}
-          </div>
-        </ListBox>
+        <Container>
+          <Header>
+            <div> TO-DO LIST </div>
+            <button onClick={() => this.createTask()}>+</button>
+          </Header>
+          <Projects>
+            {this.props.projects.map(p => (
+              <Project>
+                <ProjectName>{p.name}</ProjectName>
+                <List>
+                  {p.tasks.map(x => <div>{x}</div>)}
+                </List>
+                <Input
+                  type="text"
+                  placeholder="ADD"
+                  value={this.state.newTaskName}
+                  onChange={(e) => this.taskNameChanged(e)}
+                  onKeyUp={(e) => this.taskNameKeyUp(e)}
+                />
+              </Project>
+            ))}
+          </Projects>
+
+
+        </Container>
       </AppBody>
     );
   }
@@ -58,32 +68,48 @@ const AppBody = styled(Flex)`
   width: 100vw;
   justify-content: space-evenly;
   align-items: center;
-  background-color: blue;
+  background-color: #7B68EE;
+  text-align: left;
 `
-const ListBox = styled(Flex)`
+const Container = styled(Flex)`
   width: 300px;
   justify-content: space-around;
-  align-items: center;
+  align-items: stretch;
   flex-direction: column;
   background-color: white;
-  padding-bottom: 15px;
-  border-radius: 1%;
 `
-const Input = styled.input`
-  height: 20px;
-  width: 30px;
-  margin: 3px;
-  padding-left: 14px;
-  border: 22px solid grey;
-  text-align: center;
-  border-radius: 15px;
-  background-color: grey;
-  outline:0;
+const Header = styled(Flex)`
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #2072B5;
+  color: white;
+`
+const List = styled(Flex)`
+  flex-direction: column;
+  padding: 15px;
+`
+const Projects = styled(Flex)`
+  flex-direction: column;
+  padding: 15px;
+`
+const Project = styled(Flex)`
+  flex-direction: column;
+`
+const ProjectName = styled(Flex)`
+  flex-direction: column;
 `
 
+const Input = styled.input`
+  height: 20px;
+  flex: 1;
+  text-align: left;
+  outline:0;
+  padding: 10px 10px;
+  border: 1px solid grey;
+`
 export default connect(
   (state) => ({
-    list: state.todos.toJS().list,
+    projects: state.todos.toJS().projects,
   }),
   ({
     addTask,
