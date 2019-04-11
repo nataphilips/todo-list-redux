@@ -32,27 +32,28 @@ class App extends Component {
         <Container>
           <Header>
             <div> TO-DO LIST </div>
-            <button onClick={() => this.createTask()}>+</button>
+            <Button onClick={() => this.createTask()}>New Project</Button>
           </Header>
           <Projects>
             {this.props.projects.map(p => (
               <Project>
                 <ProjectName>{p.name}</ProjectName>
                 <List>
-                  {p.tasks.map(x => <div>{x}</div>)}
+                  {p.tasks.map(x => <Task><PlusIcon className="icon-circle" />{x}</Task>)}
                 </List>
-                <Input
-                  type="text"
-                  placeholder="ADD"
-                  value={this.state.newTaskName}
-                  onChange={(e) => this.taskNameChanged(e)}
-                  onKeyUp={(e) => this.taskNameKeyUp(e)}
-                />
+                <InputRow>
+                  <PlusIcon className="icon-plus"  />
+                  <Input
+                    type="text"
+                    placeholder="ADD"
+                    value={this.state.newTaskName}
+                    onChange={(e) => this.taskNameChanged(e)}
+                    onKeyUp={(e) => this.taskNameKeyUp(e)}
+                  />
+                </InputRow>
               </Project>
             ))}
           </Projects>
-
-
         </Container>
       </AppBody>
     );
@@ -70,6 +71,8 @@ const AppBody = styled(Flex)`
   align-items: center;
   background-color: #7B68EE;
   text-align: left;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
 `
 const Container = styled(Flex)`
   width: 300px;
@@ -77,35 +80,67 @@ const Container = styled(Flex)`
   align-items: stretch;
   flex-direction: column;
   background-color: white;
+  border-radius: 5px;
 `
 const Header = styled(Flex)`
-  justify-content: space-between;
-  padding: 10px;
-  background-color: #2072B5;
-  color: white;
+  justify-content: inherit;
+  align-items: center;
+  height: 40px;
+  padding: 10px 10px 0px 10px;
+  background-color: white;
+  color: #7B68EE;
+  border-radius: 5px 5px 0px 0px;
+  font-size: 24px;
+  font-weight: bold;
 `
 const List = styled(Flex)`
   flex-direction: column;
-  padding: 15px;
 `
 const Projects = styled(Flex)`
   flex-direction: column;
-  padding: 15px;
+  padding: 10px;
 `
 const Project = styled(Flex)`
   flex-direction: column;
 `
 const ProjectName = styled(Flex)`
   flex-direction: column;
+  margin: 10px;
 `
-
+const InputRow = styled(Flex)`
+  flex-direction: row;
+  align-items: center;
+`
+const Task = styled(Flex)`
+  flex-direction: row;
+  align-items: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+`
+const PlusIcon = styled.i`
+  margin: 10px;
+  font-size: 22px;
+  color: #898989;
+`
+const Button = styled.button`
+  background-color: white;
+  height: 90%;
+  width: 40%;
+  border: 2px solid #7B68EE;
+  color: #5c4eba;
+  border-radius: 10px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+`
 const Input = styled.input`
   height: 20px;
   flex: 1;
   text-align: left;
   outline:0;
-  padding: 10px 10px;
-  border: 1px solid grey;
+  border: none;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  color: #898989;
 `
 export default connect(
   (state) => ({

@@ -2,7 +2,7 @@ import { fromJS } from 'immutable';
 
 const initialState = fromJS({
   projects: [
-    { name: "My Tasks", tasks: ['task 1'] }
+    { name: "My Tasks", tasks: ['Task 1'] }
   ]
 });
 
