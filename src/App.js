@@ -71,8 +71,9 @@ const AppBody = styled(Flex)`
   align-items: center;
   background-color: #7B68EE;
   text-align: left;
-  font-family: 'Roboto', sans-serif;
-  font-size: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  color: #666262;
 `
 const Container = styled(Flex)`
   width: 300px;
@@ -81,6 +82,7 @@ const Container = styled(Flex)`
   flex-direction: column;
   background-color: white;
   border-radius: 5px;
+  padding: 20px;
 `
 const Header = styled(Flex)`
   justify-content: inherit;
@@ -95,6 +97,7 @@ const Header = styled(Flex)`
 `
 const List = styled(Flex)`
   flex-direction: column;
+  padding-left: 10px;
 `
 const Projects = styled(Flex)`
   flex-direction: column;
@@ -106,20 +109,23 @@ const Project = styled(Flex)`
 const ProjectName = styled(Flex)`
   flex-direction: column;
   margin: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
 `
 const InputRow = styled(Flex)`
   flex-direction: row;
   align-items: center;
+  padding-left: 10px;
 `
 const Task = styled(Flex)`
   flex-direction: row;
   align-items: center;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  color: #999;
+  font-size: 16px;
 `
 const PlusIcon = styled.i`
-  margin: 10px;
-  font-size: 22px;
+  margin: 6px;
+  font-size: 16px;
   color: #898989;
 `
 const Button = styled.button`
@@ -129,7 +135,7 @@ const Button = styled.button`
   border: 2px solid #7B68EE;
   color: #5c4eba;
   border-radius: 10px;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 16px;
 `
 const Input = styled.input`
@@ -138,9 +144,8 @@ const Input = styled.input`
   text-align: left;
   outline:0;
   border: none;
-  font-family: 'Roboto', sans-serif;
-  font-size: 18px;
-  color: #898989;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
 `
 export default connect(
   (state) => ({
