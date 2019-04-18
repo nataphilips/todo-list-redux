@@ -14,6 +14,10 @@ export default function(state = initialState, action) {
        var index = projects.findIndex(i => i.id === action.payload.projectId);
        return state.updateIn(['projects', index, 'tasks'], list => list.push(action.payload.taskName));
      }
+     case 'todos/ADD_PROJECT': {
+       var project = fromJS({ id: uuidv4(), name: "New Project", tasks: [] });
+       return state.updateIn(['projects'], list => list.push(project));
+     }
    }
    return state;
 }

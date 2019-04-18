@@ -5,15 +5,18 @@ import styled from 'styled-components';
 import styles from '../styles'
 import Flex from '../components/flex'
 import Project from './Project'
+import { addProject } from '../modules/todos.actions'
 
 class App extends Component {
+
+
   render() {
     return (
       <AppBody>
         <Container>
           <Header>
             <div> TO-DO LIST </div>
-            <Button onClick={() => this.createTask()}>New Project</Button>
+            <Button onClick={() => this.props.addProject()}>New Project</Button>
           </Header>
           <Projects>
             {this.props.projects.map(p => (
@@ -85,5 +88,6 @@ export default connect(
     projects: state.todos.toJS().projects,
   }),
   ({
+    addProject,
   }),
 )(App);
