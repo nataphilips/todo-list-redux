@@ -1,5 +1,5 @@
-export const addTask = (taskName) => (
+export const addTask = (projectId, taskName) => (
   (dispatch, getState) => {
-    dispatch({ type: 'todos/ADD_TASK', payload: {taskName} })
+    dispatch({ type: 'todos/ADD_TASK', payload: {projectId, taskName} })
   }
 );
