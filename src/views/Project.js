@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addTask } from '../modules/todos.actions'
 import styled from 'styled-components';
-import styles from '../styles'
-import Flex from '../components/flex'
+import styles from '../styles';
+import Flex from '../components/flex';
+import uuidv4 from 'uuid/v4';
 
 class Project extends Component {
   constructor(props) {
@@ -31,7 +32,12 @@ class Project extends Component {
       <Container>
         <ProjectName>{this.props.project.name}</ProjectName>
         <List>
-          {this.props.project.tasks.map(x => <Task><PlusIcon className="icon-circle" />{x}</Task>)}
+          {this.props.project.tasks.map(x =>
+            <Task>
+              <PlusIcon className="icon-circle" />
+              {x.name}
+            </Task>
+          )}
         </List>
         <InputRow>
           <PlusIcon className="icon-plus"  />
