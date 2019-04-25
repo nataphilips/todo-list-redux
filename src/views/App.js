@@ -8,8 +8,6 @@ import Project from './Project'
 import { addProject } from '../modules/todos.actions'
 
 class App extends Component {
-
-
   render() {
     return (
       <AppBody>
@@ -20,7 +18,7 @@ class App extends Component {
           </Header>
           <Projects>
             {this.props.projects.map(p => (
-              <Project project={p} />
+              <Project project={p} key={p.id} />
             ))}
           </Projects>
         </Container>

@@ -9,3 +9,9 @@ export const addProject = () => (
     dispatch({ type: 'todos/ADD_PROJECT', payload: {} })
   }
 );
+
+export const crossTask = (projectId, taskId) => (
+  (dispatch, getState) => {
+    dispatch({ type: 'todos/CROSS_TASK', payload: {projectId, taskId} })
+  }
+);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addTask } from '../modules/todos.actions'
+import { addTask, crossTask } from '../modules/todos.actions'
 import styled from 'styled-components';
 import styles from '../styles';
 import Flex from '../components/flex';
@@ -13,6 +13,11 @@ class Project extends Component {
     this.state = {
       newTaskName: "",
     }
+  }
+
+  checkOut(taskId) {
+    this.props.crossTask(this.props.project.id, taskId);
+    console.log(this.props.project.id, taskId)
   }
 
   taskNameChanged(event) {
@@ -33,14 +38,15 @@ class Project extends Component {
         <ProjectName>{this.props.project.name}</ProjectName>
         <List>
           {this.props.project.tasks.map(x =>
-            <Task>
-              <PlusIcon className="icon-circle" />
-              {x.name}
+            <Task done={x.checked} key={x.id}>
+              {!x.checked && <PlusIcon className="icon-circle" onClick={() => this.checkOut(x.id)} />}
+              {x.checked && <PlusIcon className="icon-check-circle" />}
+              <span className="task-name">{x.name}</span>
             </Task>
           )}
         </List>
         <InputRow>
-          <PlusIcon className="icon-plus"  />
+          <PlusIcon className="icon-plus" />
           <Input
             type="text"
             placeholder="ADD"
@@ -77,6 +83,12 @@ const Task = styled(Flex)`
   align-items: center;
   color: ${styles.colors.dustyGray};
   font-size: 16px;
+
+  .task-name {
+    ${props => props.done && `
+      text-decoration: line-through;
+    `}
+  }
 `
 const PlusIcon = styled.i`
   margin: ${styles.dimensions.xs};
@@ -107,5 +119,6 @@ export default connect(
   }),
   ({
     addTask,
+    crossTask,
   }),
 )(Project);
