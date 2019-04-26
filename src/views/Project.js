@@ -37,10 +37,15 @@ class Project extends Component {
       <Container>
         <ProjectName>{this.props.project.name}</ProjectName>
         <List>
-          {this.props.project.tasks.map(x =>
+          {this.props.project.tasks.filter(x => !x.checked).map(x =>
             <Task done={x.checked} key={x.id}>
-              {!x.checked && <PlusIcon className="icon-circle" onClick={() => this.checkOut(x.id)} />}
-              {x.checked && <PlusIcon className="icon-check-circle" />}
+              <PlusIcon className="icon-circle" onClick={() => this.checkOut(x.id)} />
+              <span className="task-name">{x.name}</span>
+            </Task>
+          )}
+          {this.props.project.tasks.filter(x => x.checked).map(x =>
+            <Task done={x.checked} key={x.id}>
+              <PlusIcon className="icon-check-circle" />
               <span className="task-name">{x.name}</span>
             </Task>
           )}
