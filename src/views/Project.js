@@ -19,13 +19,16 @@ class Project extends Component {
   checkedTasks() {
     return this.props.project.tasks.filter(x => x.checked);
   }
+
   uncheckedTasks() {
     return this.props.project.tasks.filter(x => !x.checked);
   }
+
   taskNameChanged(event) {
     const taskName = event.target.value;
     this.setState({ newTaskName: taskName });
   }
+
   taskNameKeyUp(e) {
     if (e.keyCode == 13) {
       this.props.addTask(this.props.project.id, this.state.newTaskName);
@@ -39,7 +42,7 @@ class Project extends Component {
         <ProjectName>{this.props.project.name}</ProjectName>
         <List>
           {this.uncheckedTasks().map(x =>
-            <Task task={x} key={x.id} />
+            <Task task={x} key={x.id} projectId={this.props.project.id}/>
           )}
           <TasksDoneContainer hasItems={this.checkedTasks().length > 0}>
           {this.checkedTasks().map(x =>
@@ -69,13 +72,17 @@ const List = styled(Flex)`
 const TasksDoneContainer = styled(Flex)`
   flex-direction: column;
   padding-left: ${styles.dimensions.sm};
+  margin-right: ${styles.dimensions.sm};
   ${props => props.hasItems && `
-    border-top: 2px dashed ${styles.colors.dustyGray};
+    border-top: 1.5px dashed ${styles.colors.silver};
     padding-top: 10px;
   `}
 `
 const Container = styled(Flex)`
   flex-direction: column;
+  border: 1.5px solid ${styles.colors.platinum};
+  border-radius: 10px;
+  margin-bottom: 10px;
 `
 const ProjectName = styled(Flex)`
   flex-direction: column;
@@ -87,6 +94,7 @@ const InputRow = styled(Flex)`
   flex-direction: row;
   align-items: center;
   padding-left: ${styles.dimensions.sm};
+  padding-right: ${styles.dimensions.sm};
 `
 const Button = styled.button`
   background-color: white;
