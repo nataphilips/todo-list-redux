@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addTask, crossTask } from '../modules/todos.actions'
+import { addTask } from '../modules/todos.actions'
 import styled from 'styled-components';
 import styles from '../styles';
 import Flex from '../components/flex';
 import uuidv4 from 'uuid/v4';
+import Task from './Task'
 
 class Project extends Component {
   constructor(props) {
@@ -12,20 +13,19 @@ class Project extends Component {
 
     this.state = {
       newTaskName: "",
-      haveCheckedItems: false,
     }
   }
 
-  checkOut(taskId) {
-    this.props.crossTask(this.props.project.id, taskId);
-    this.setState({ haveCheckedItems: true });
+  checkedTasks() {
+    return this.props.project.tasks.filter(x => x.checked);
   }
-
+  uncheckedTasks() {
+    return this.props.project.tasks.filter(x => !x.checked);
+  }
   taskNameChanged(event) {
     const taskName = event.target.value;
     this.setState({ newTaskName: taskName });
   }
-
   taskNameKeyUp(e) {
     if (e.keyCode == 13) {
       this.props.addTask(this.props.project.id, this.state.newTaskName);
@@ -38,18 +38,12 @@ class Project extends Component {
       <Container>
         <ProjectName>{this.props.project.name}</ProjectName>
         <List>
-          {this.props.project.tasks.filter(x => !x.checked).map(x =>
-            <Task done={x.checked} key={x.id}>
-              <PlusIcon className="icon-circle" onClick={() => this.checkOut(x.id)} />
-              <span className="task-name">{x.name}</span>
-            </Task>
+          {this.uncheckedTasks().map(x =>
+            <Task task={x} key={x.id} />
           )}
-          <TasksDoneContainer hasItems = {this.state.haveCheckedItems}>
-          {this.props.project.tasks.filter(x => x.checked).map(x =>
-            <Task done={x.checked} key={x.id}>
-              <PlusIcon className="icon-check-circle" />
-              <span className="task-name">{x.name}</span>
-            </Task>
+          <TasksDoneContainer hasItems={this.checkedTasks().length > 0}>
+          {this.checkedTasks().map(x =>
+            <Task task={x} key={x.id} projectId={this.props.project.id} />
           )}
           </TasksDoneContainer>
         </List>
@@ -94,25 +88,6 @@ const InputRow = styled(Flex)`
   align-items: center;
   padding-left: ${styles.dimensions.sm};
 `
-const Task = styled(Flex)`
-  flex-direction: row;
-  align-items: center;
-  color: ${styles.colors.dustyGray};
-  font-size: 16px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-
-  .task-name {
-    ${props => props.done && `
-      text-decoration: line-through;
-    `}
-  }
-`
-const PlusIcon = styled.i`
-  margin: ${styles.dimensions.xs};
-  font-size: 16px;
-  color: ${styles.colors.dustyGray};
-`
 const Button = styled.button`
   background-color: white;
   height: 90%;
@@ -132,11 +107,15 @@ const Input = styled.input`
   font-family: 'Montserrat', sans-serif;
   font-size: 16px;
 `
+const PlusIcon = styled.i`
+  margin: ${styles.dimensions.xs};
+  font-size: 16px;
+  color: ${styles.colors.dustyGray};
+`
 export default connect(
   (state) => ({
   }),
   ({
     addTask,
-    crossTask,
   }),
 )(Project);
