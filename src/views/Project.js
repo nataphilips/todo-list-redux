@@ -12,12 +12,13 @@ class Project extends Component {
 
     this.state = {
       newTaskName: "",
+      haveCheckedItems: false,
     }
   }
 
   checkOut(taskId) {
     this.props.crossTask(this.props.project.id, taskId);
-    console.log(this.props.project.id, taskId)
+    this.setState({ haveCheckedItems: true });
   }
 
   taskNameChanged(event) {
@@ -43,12 +44,14 @@ class Project extends Component {
               <span className="task-name">{x.name}</span>
             </Task>
           )}
+          <TasksDoneContainer hasItems = {this.state.haveCheckedItems}>
           {this.props.project.tasks.filter(x => x.checked).map(x =>
             <Task done={x.checked} key={x.id}>
               <PlusIcon className="icon-check-circle" />
               <span className="task-name">{x.name}</span>
             </Task>
           )}
+          </TasksDoneContainer>
         </List>
         <InputRow>
           <PlusIcon className="icon-plus" />
@@ -69,6 +72,14 @@ const List = styled(Flex)`
   flex-direction: column;
   padding-left: ${styles.dimensions.sm};
 `
+const TasksDoneContainer = styled(Flex)`
+  flex-direction: column;
+  padding-left: ${styles.dimensions.sm};
+  ${props => props.hasItems && `
+    border-top: 2px dashed ${styles.colors.dustyGray};
+    padding-top: 10px;
+  `}
+`
 const Container = styled(Flex)`
   flex-direction: column;
 `
@@ -88,6 +99,8 @@ const Task = styled(Flex)`
   align-items: center;
   color: ${styles.colors.dustyGray};
   font-size: 16px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 
   .task-name {
     ${props => props.done && `
